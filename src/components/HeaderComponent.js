@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Header, Icon, Segment, Grid } from "semantic-ui-react";
 
-function HeaderComponent({
-  userAddress,
-  web3,
-  tokenName,
-  contract,
-  chainId,
-  totalSupply,
-  tokenSymbol,
-  userBalance,
-  tokenDecimals,
-  userETHBalance,
-}) {
+function HeaderComponent({ web3, chainId, tokenData, userData }) {
+  const { tokenSymbol, tokenName, tokenDecimals, totalSupply } = tokenData;
+  const { userAddress, userTokenBalance, userETHBalance } = userData;
   return (
     <div>
       <Grid columns={3}>
@@ -48,19 +39,21 @@ function HeaderComponent({
             </Header>
           </Grid.Column>
           <Grid.Column>
-            {userAddress !== "" ? (
+            {userAddress !== undefined ? (
               <p>
-                Your {tokenSymbol} Balance: {userBalance}
+                Your {tokenSymbol} Balance: {userTokenBalance}
               </p>
             ) : (
               ""
             )}
-            {userAddress !== "" ? (
-              <p>Your MATIC Balance: {userETHBalance}</p>
+            {userAddress !== undefined ? (
+              <p>
+                Your MATIC Balance: {parseInt(userETHBalance * 1000) / 1000}
+              </p>
             ) : (
               ""
             )}
-            {userAddress !== "" ? (
+            {userAddress !== undefined ? (
               <Button
                 type="submit"
                 onClick={(e) => {
